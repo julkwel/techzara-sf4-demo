@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo index{% endblock %}
+
+{% block aside %}
+    <aside class="col-12 col-md-2 p-0 bg-dark">
+        <nav class="navbar navbar-expand navbar-dark bg-dark flex-md-column flex-row align-items-start">
+            <div class="collapse navbar-collapse">
+                <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+                    <li class="nav-item">
+                        <a href="{{ path('todo_index') }}">All</a>
+                    </li>
+                    <li class="nav-item"><a href="{{ path('todo_status',{"status":1}) }}">Important</a></li>
+                    <li class="nav-item"><a href="{{ path('todo_status',{"status":2}) }}">Enhancement</a></li>
+                    <li class="nav-item"><a href="{{ path('todo_status',{"status":3}) }}">Features</a></li>
+                </ul>
+            </div>
+        </nav>
+    </aside>
+{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="card m-2">
+        <div class="card-header"><h3 class="text-center">Liste des taches</h3></div>
+        <div class="card-body">
+            <a href="{{ path('todo_new') }}" class="float-right">Create new</a>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Date Début</th>
+                    <th>Date Fin</th>
+                    <th>actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.id }}</td>
+                        <td>{{ todo.todoName }}</td>
+                        <td>{{ todo.todoDescription }}</td>
+                        <td>{{ todo.todoDateDeb ? todo.todoDateDeb|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>{{ todo.todoDateFin ? todo.todoDateFin|date('Y-m-d H:i:s') : '' }}</td>
+                        <td>
+                            <a href="{{ path('todo_fin', {'id': todo.id}) }}" class="btn btn-warning"><i
+                                        class="fas fa-flag-checkered"></i></a>
+                            <a href="{{ path('todo_show', {'id': todo.id}) }}" class="btn btn-secondary"><i
+                                        class="fa fa-eye"></i></a>
+                            <a href="{{ path('todo_edit', {'id': todo.id}) }}" class="btn btn-success"><i
+                                        class="fa fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% if todoFin == true %}
+        <div class="card m-2">
+            <div class="card-header">
+                <h3 class="text-center">Liste des taches terminer</h3>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <th>Title</th>
+                        <th>Date Fin</th>
+                        <th>Action</th>
+                    </thead>
+                    <tbody>
+                    {% for todo in todoFin %}
+                        <tr>
+                            <td>{{ todo.todoName }}</td>
+                            <td>{{ todo.todoDateFinExact|date('Y-m-d H:m') }}</td>
+                            <td>{{ include('todo/_delete_form.html.twig') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+
+    {% endif %}
+
+{% endblock %}
+

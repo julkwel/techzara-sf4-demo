@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo{% endblock %}
+
+{% block body %}
+    <h1>Todo</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ todo.id }}</td>
+            </tr>
+            <tr>
+                <th>Todo_name</th>
+                <td>{{ todo.todoName }}</td>
+            </tr>
+            <tr>
+                <th>Todo_description</th>
+                <td>{{ todo.todoDescription }}</td>
+            </tr>
+            <tr>
+                <th>Todo_date_deb</th>
+                <td>{{ todo.todoDateDeb ? todo.todoDateDeb|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Todo_date_fin</th>
+                <td>{{ todo.todoDateFin ? todo.todoDateFin|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Todo_is_fin</th>
+                <td>{{ todo.todoIsFin ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('todo_index') }}">back to list</a>
+
+    <a href="{{ path('todo_edit', {'id': todo.id}) }}">edit</a>
+
+    {{ include('todo/_delete_form.html.twig') }}
+{% endblock %}

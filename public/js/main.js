@@ -1,0 +1,1 @@
+$('.datetime').datetimepicker({ footer: true, modal: true ,format: 'yyyy-dd-mm HH:MM'});
