@@ -41,7 +41,7 @@ class TodoController extends AbstractController
     public function index(TodoRepository $todoRepository): Response
     {
         return $this->render('todo/index.html.twig', [
-            'todos' => $todoRepository->findBy(['todo_is_fin' => false]),
+            'todos' => $todoRepository->findBy(['todo_is_fin' => 0]),
             'taskfinished' => true,
         ]);
     }

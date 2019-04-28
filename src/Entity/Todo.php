@@ -46,7 +46,7 @@ class Todo
     private $todo_date_fin_exact;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true,options={"default":"0"})
+     * @ORM\Column(type="boolean", nullable=true, options={"default":0})
      */
     private $todo_is_fin;
 
