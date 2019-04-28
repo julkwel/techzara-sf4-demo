@@ -11,39 +11,52 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {#Header todo#}
             <div style="padding-top: 10px"></div>
             <div class="panel panel-primary">
                 <div class="panel-body" style="padding: 0px;background: #2CA8FF;color: white">
                     <h2 class="text-center" style="font-family: 'Montserrat', sans-serif;">Todo Techzara</h2>
                 </div>
             </div>
+            {#end header#}
 
+            {#body todo#}
             <div class="fresh-table full-color-orange">
+                {#Table toolbar#}
                 <div class="toolbar" style="display: flex">
                     <a href="{{ path('todo_index') }}" id="refreshList" class="btn btn-default"> All</a>
-                    <a data-toggle="modal" onclick="addTodo('{{ path('todo_new') }}')" data-target="#myModal" id="addTodo" class="btn btn-default"> <i
+                    <a data-toggle="modal" onclick="addTodo('{{ path('todo_new') }}')" data-target="#myModal"
+                       id="addTodo" class="btn btn-default"> <i
                                 class="fa fa-plus"></i></a>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                             <i class="fa fa-cog"></i>
                         </button>
                         <ul class="dropdown-menu">
+                            <li class="nav-item"><a href="{{ path('todo_fin_list') }}">Task Finished</a></li>
                             <li class="nav-item"><a href="{{ path('todo_status',{"status":1}) }}">Important</a></li>
                             <li class="nav-item"><a href="{{ path('todo_status',{"status":2}) }}">Enhancement</a></li>
                             <li class="nav-item"><a href="{{ path('todo_status',{"status":3}) }}">Features</a></li>
                         </ul>
                     </div>
-
                 </div>
+                {#end table toolbar#}
 
+                {#Table list #}
                 <table id="fresh-table" class="table">
                     <thead>
                     <th data-field="id">ID</th>
-                    <th data-field="name" data-sortable="true">Title</th>
-                    <th data-field="salary" data-sortable="true">Description</th>
-                    <th data-field="country" data-sortable="true">Date début</th>
-                    <th data-field="city">Date fin</th>
-                    <th data-field="actions" data-events="operateEvents">Actions</th>
+                    <th data-field="title" data-sortable="true">Title</th>
+                    <th data-field="description" data-sortable="true">Description</th>
+                    {% if taskfinished == true %}
+                        <th data-field="datedebut" data-sortable="true">Date début</th>
+                        <th data-field="datefin">Date fin</th>
+                        <th data-field="actions" data-events="operateEvents">Actions</th>
+                    {% else %}
+                        <th data-field="dateterminer">Date finished</th>
+                        <th data-field="actions" data-events="operateEvents">Actions</th>
+                    {% endif %}
+
                     </thead>
                     <tbody>
                     {% for todo in todos %}
@@ -51,43 +64,51 @@
                             <td>{{ todo.id }}</td>
                             <td>{{ todo.todoName }}</td>
                             <td>{{ todo.todoDescription | slice(0,50) }}</td>
-                            <td>{{ todo.todoDateDeb|date('Y-m-d h:m') }}</td>
-                            <td>{{ todo.todoDateFin|date('Y-m-d h:m') }}</td>
-                            <td>
-                                <a href="{{ path('todo_fin', {'id': todo.id}) }}" title="Terminer la tache"><i
-                                            class="fa fa-check"></i></a>
-                                <a onclick="modifierTodo('{{ path('todo_edit', {'id': todo.id}) }}')"
-                                   data-toggle="modal" data-target="#myModal" title="Modifier la tache">
-                                    <i class="fa fa-edit"></i></a>
-                                <a href="{{ path('todo_delete', {'id': todo.id}) }}" title="Supprimer la tache"
-                                   onclick="return confirm('Are you sure you want to delete this item?');">
-                                    <i class="fa fa-trash"></i>
-                                </a>
-                            </td>
+                            {% if taskfinished == true %}
+                                <td>{{ todo.todoDateDeb|date('Y-m-d h:m') }}</td>
+                                <td>{{ todo.todoDateFin|date('Y-m-d h:m') }}</td>
+                                <td>
+                                    <a href="{{ path('todo_fin', {'id': todo.id}) }}" title="Terminer la tache"><i
+                                                class="fa fa-check"></i></a>
+                                    <a onclick="modifierTodo('{{ path('todo_edit', {'id': todo.id}) }}')"
+                                       data-toggle="modal" data-target="#myModal" title="Modifier la tache">
+                                        <i class="fa fa-edit"></i></a>
+                                    <a href="{{ path('todo_delete', {'id': todo.id}) }}" title="Supprimer la tache"
+                                       onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            {% else %}
+                                <td>{{ todo.todoDateFinExact|date('Y-m-d h:m') }}</td>
+                                <td>
+                                    <a href="{{ path('todo_delete', {'id': todo.id}) }}" title="Supprimer la tache"
+                                       onclick="return confirm('Are you sure you want to delete this item?');">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             </div>
+            {#end body todo#}
 
-            <div class="description description-footer">
-                <h2 id="sharrreTitle">Thank you for shares!</h2>
-                <br>
-                <button id="twitter" class="btn btn-info btn-social btn-twitter btn-round btn-fill btn-wd"><i
-                            class="fa fa-twitter"></i></button>
-                <button id="facebook" class="btn btn-info btn-social btn-facebook btn-round btn-fill btn-wd"><i
-                            class="fa fa-facebook-square"></i></button>
-
-                <p>Copyright &copy;
+            {# Footer text #}
+            <div class="footer navbar-fixed-bottom">
+                <p class="text-center icon-light" style="color: white">Copyright &copy;
                     <script> document.write(new Date().getFullYear())</script>
-                    <a href="http://creative-tim.com">Creative Tim | develop by <a
-                                href="https://www.github.com/julkwel" target="_blank">Julkwel <i
-                                    class="fa fa-github"></i></a></a>,
+                    <a href="http://creative-tim.com">Creative Tim</a> | develop by
+                    <a href="https://www.github.com/julkwel" target="_blank">Julkwel <i class="fa fa-github"></i></a>,
                     made with <i class="fa fa-heart ct-heart"></i> for a better web.
                 </p>
             </div>
+            {#end footer#}
+
         </div>
     </div>
+
+    {#Theme settings#}
     <div class="fixed-plugin" style="top: 300px">
         <div class="dropdown open">
             <a href="#" data-toggle="dropdown">
@@ -121,27 +142,29 @@
                 </li>
                 <li>
                     <div class="">
-                        <a href="http://www.creative-tim.com/product/fresh-bootstrap-table" target="_blank"
+                        <a href="https://github.com/julkwel/techzara-sf4-demo" target="_blank"
                            class="btn btn-info btn-block btn-fill">Download, it's free!</a>
                     </div>
                 </li>
             </ul>
         </div>
     </div>
+    {#end theme settings#}
 
-    <!-- Modal -->
+    {#Modal add and edit#}
     <div id="myModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title"></h4>
                 </div>
                 <div class="modal-body"></div>
             </div>
 
         </div>
     </div>
+    {#end modal#}
 
 {% endblock %}
 {% block javascripts %}
@@ -204,11 +227,6 @@
 
                 }
             };
-
-            $alertBtn.click(function () {
-                alert("You pressed on Alert");
-            });
-
         });
 
 
@@ -222,7 +240,6 @@
             enableHover: false,
             enableTracking: true,
             render: function (api, options) {
-
                 $("#sharrreTitle").html('Thank you for ' + options.total + ' shares!');
             },
             url: 'http://demos.creative-tim.com/fresh-bootstrap-table'

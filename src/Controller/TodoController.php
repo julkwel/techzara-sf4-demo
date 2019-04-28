@@ -30,7 +30,7 @@ class TodoController extends AbstractController
     }
 
     /**
-     * List Todo fin.
+     * List Todo Not finished.
      *
      * @Route("/", name="todo_index", methods={"GET","POST"})
      *
@@ -40,15 +40,34 @@ class TodoController extends AbstractController
      */
     public function index(TodoRepository $todoRepository): Response
     {
-        $_list_todo_terminer = $todoRepository->findTodoFin();
-
         return $this->render('todo/index.html.twig', [
             'todos' => $todoRepository->findBy(['todo_is_fin' => false]),
-            'todoFin' => $_list_todo_terminer,
+            'taskfinished' => true,
         ]);
     }
 
     /**
+     * Get all Task finished.
+     *
+     * @Route("/taskfinished", name="todo_fin_list", methods={"GET","POST"})
+     *
+     * @param TodoRepository $todoRepository
+     *
+     * @return Response
+     */
+    public function taskFinished(TodoRepository $todoRepository): Response
+    {
+        $_list_todo_terminer = $todoRepository->findTodoFin();
+
+        return $this->render('todo/index.html.twig', [
+            'todos' => $_list_todo_terminer,
+            'taskfinished' => false,
+        ]);
+    }
+
+    /**
+     * Merge service my.entity.manager to getSubscribedServices.
+     *
      * @return array
      */
     public static function getSubscribedServices()
@@ -137,12 +156,12 @@ class TodoController extends AbstractController
 
         return $this->render('todo/index.html.twig', [
             'todos' => $todos,
-            'todoFin' => false,
+            'taskfinished' => true,
         ]);
     }
 
     /**
-     * Fin Todo.
+     * Finished Todo.
      *
      * @param Todo $todo
      *
@@ -153,6 +172,7 @@ class TodoController extends AbstractController
     {
         $todo->setTodoIsFin(true);
         $todo->setTodoDateFinExact(new \DateTime('now'));
+
         $this->em->save($todo, 'update');
         $this->addFlash('success', 'Tache mise terminer');
 

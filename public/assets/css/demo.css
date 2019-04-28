@@ -6,6 +6,13 @@ body{
     height: 100vh;
     
 }
+
+.description {
+    position: absolute;
+    top: 50vh;
+    text-align: center;
+}
+
 .fresh-table{
     margin-top: 45px;
     box-shadow: -15px 27px 69px rgba(0,0,0,.30);
