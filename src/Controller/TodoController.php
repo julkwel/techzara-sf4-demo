@@ -32,7 +32,7 @@ class TodoController extends AbstractController
     /**
      * List Todo fin
      *
-     * @Route("/", name="todo_index", methods={"GET"})
+     * @Route("/", name="todo_index", methods={"GET","POST"})
      *
      * @param TodoRepository $todoRepository
      * @return Response
@@ -52,7 +52,6 @@ class TodoController extends AbstractController
      */
     public static function getSubscribedServices()
     {
-
         return array_merge(parent::getSubscribedServices(), [
             'my.entity.manager' => '?' . EntityManager::class
         ]);
@@ -82,25 +81,14 @@ class TodoController extends AbstractController
             return $this->redirectToRoute('todo_index');
         }
 
-        return $this->render('todo/new.html.twig', [
+        return $this->render('todo/_form.html.twig', [
             'todo' => $todo,
+            'button_id'=>'add',
+            'button_text'=>'Add Todo',
             'form' => $form->createView(),
         ]);
     }
 
-    /**
-     * Show Todo
-     *
-     * @Route("/{id}", name="todo_show", methods={"GET"})
-     * @param Todo $todo
-     * @return Response
-     */
-    public function show(Todo $todo): Response
-    {
-        return $this->render('todo/show.html.twig', [
-            'todo' => $todo,
-        ]);
-    }
 
     /**
      * Edit todo
@@ -124,8 +112,10 @@ class TodoController extends AbstractController
             ]);
         }
 
-        return $this->render('todo/edit.html.twig', [
+        return $this->render('todo/_form.html.twig', [
             'todo' => $todo,
+            'button_text'=>'Edit Todo',
+            'button_id'=>'edit',
             'form' => $form->createView(),
         ]);
     }
@@ -169,14 +159,13 @@ class TodoController extends AbstractController
     /**
      * Remove todo
      *
-     * @Route("/{id}", name="todo_delete", methods={"DELETE"})
-     * @param Request $request
+     * @Route("/{id}/delete", name="todo_delete", methods={"POST","GET"})
      * @param Todo $todo
      * @return Response
      */
-    public function delete(Request $request, Todo $todo): Response
+    public function delete(Todo $todo): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $todo->getId(), $request->request->get('_token'))) {
+        if ($todo) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($todo);
             $entityManager->flush();

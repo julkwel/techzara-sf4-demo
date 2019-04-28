@@ -108,5 +108,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="fresh-bootstrap-table-master" />
   </component>
 </module>

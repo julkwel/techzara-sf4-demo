@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/demo.iml" filepath="$PROJECT_DIR$/.idea/demo.iml" />
+      <module fileurl="file://$USER_HOME$/Downloads/fresh-bootstrap-table-master/.idea/fresh-bootstrap-table-master.iml" filepath="$USER_HOME$/Downloads/fresh-bootstrap-table-master/.idea/fresh-bootstrap-table-master.iml" />
     </modules>
   </component>
 </project>

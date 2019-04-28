@@ -46,9 +46,17 @@ class Todo
     private $todo_date_fin_exact;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean", nullable=true,options={"default":"0"})
      */
     private $todo_is_fin;
+
+    /**
+     * Todo constructor.
+     */
+    public function __construct()
+    {
+        $this->todo_is_fin = 0;
+    }
 
     /**
      * @var

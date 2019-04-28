@@ -1,6 +1,10 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <div class="form-group m-2">
-        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_start(form,{"attr":{"id":"formdata"}}) }}
+    <div class="">
+        {{ form_widget(form) }}
+        <div class="form-group">
+            <button class="btn btn-primary" style="float: right;margin-top: 15px" id="{{ button_id }}">{{ button_text }}</button>
+            <button style="margin-top: 15px" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
     </div>
+
 {{ form_end(form) }}

@@ -34,14 +34,16 @@ class TodoType extends AbstractType
                 'widget'=>'single_text',
                 'html5'=>false,
                 'attr' => [
-                    'class' => 'datetime form-control col-md-6'
+                    'class' => 'datetime form-control col-md-6',
+                    'autocomplete'=>'off'
                 ]
             ])
             ->add('todo_date_fin', DateTimeType::class, [
                 'widget'=>'single_text',
                 'html5'=>false,
                 'attr' => [
-                    'class' => 'datetime form-control col-md-6'
+                    'class' => 'datetime form-control col-md-6',
+                    'autocomplete'=>'off'
                 ]
             ])
             ->add('todoStatus', ChoiceType::class, [
