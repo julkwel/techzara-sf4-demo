@@ -30,6 +30,16 @@ class TodoType extends AbstractType
                     'class' => 'form-control col-md-6',
                 ],
             ])
+            ->add('todoStatus', ChoiceType::class, [
+                'choices' => [
+                    'important' => 1,
+                    'enhancement' => 2,
+                    'features' => 3,
+                ],
+                'attr' => [
+                    'class' => 'form-control col-md-6',
+                ],
+            ])
             ->add('todo_date_deb', DateTimeType::class, [
                 'widget' => 'single_text',
                 'html5' => false,
@@ -46,16 +56,7 @@ class TodoType extends AbstractType
                     'autocomplete' => 'off',
                 ],
             ])
-            ->add('todoStatus', ChoiceType::class, [
-                'choices' => [
-                    'important' => 1,
-                    'enhancement' => 2,
-                    'features' => 3,
-                ],
-                'attr' => [
-                    'class' => 'form-control col-md-6',
-                ],
-            ]);
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
