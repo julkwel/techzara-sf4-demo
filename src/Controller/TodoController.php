@@ -40,8 +40,10 @@ class TodoController extends AbstractController
      */
     public function index(TodoRepository $todoRepository): Response
     {
+        $_user = $this->get('security.token_storage')->getToken()->getUser();
+
         return $this->render('todo/index.html.twig', [
-            'todos' => $todoRepository->findBy(['todo_is_fin' => 0]),
+            'todos' => $todoRepository->findBy(['todo_is_fin' => 0,'todo_user'=>$_user]),
             'taskfinished' => true,
         ]);
     }
@@ -57,7 +59,8 @@ class TodoController extends AbstractController
      */
     public function taskFinished(TodoRepository $todoRepository): Response
     {
-        $_list_todo_terminer = $todoRepository->findTodoFin();
+        $_user = $this->get('security.token_storage')->getToken()->getUser();
+        $_list_todo_terminer = $todoRepository->findBy(['todo_user'=>$_user,'todo_is_fin'=>1]);
 
         return $this->render('todo/index.html.twig', [
             'todos' => $_list_todo_terminer,
@@ -90,11 +93,13 @@ class TodoController extends AbstractController
     public function new(Request $request, EntityManager $entityManager): Response
     {
         $todo = new Todo();
+        $_user = $this->get('security.token_storage')->getToken()->getUser();
 
         $form = $this->createForm(TodoType::class, $todo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $todo->setTodoUser($_user);
             $entityManager->save($todo, 'new');
             $this->addFlash('success', 'Ajout tache éffectué');
 
@@ -152,7 +157,8 @@ class TodoController extends AbstractController
      */
     public function getTodoStatus(TodoRepository $todoRepository, $status): Response
     {
-        $todos = $todoRepository->findByStatus($status);
+        $_user = $this->get('security.token_storage')->getToken()->getUser();
+        $todos = $todoRepository->findBy(['todo_status'=>$status,'todo_user'=>$_user]);
 
         return $this->render('todo/index.html.twig', [
             'todos' => $todos,
@@ -170,7 +176,7 @@ class TodoController extends AbstractController
      */
     public function fin(Todo $todo): Response
     {
-        $todo->setTodoIsFin(true);
+        $todo->setTodoIsFin(1);
         $todo->setTodoDateFinExact(new \DateTime('now'));
 
         $this->em->save($todo, 'update');

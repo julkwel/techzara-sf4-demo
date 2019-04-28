@@ -4,25 +4,30 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-md-12">
-            {% for message in app.flashes('success') %}
-                <div class="alert alert-success" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
             {#Header todo#}
             <div style="padding-top: 10px"></div>
             <div class="panel panel-primary">
-                <div class="panel-body" style="padding: 0px;background: #2CA8FF;color: white">
-                    <h4 class="text-center" style="font-family: 'Montserrat', sans-serif;">My task manager</h4>
+                <div class="panel-body" style="padding: 0px;background: #2CA8FF;color: white;">
+                    <h4 class="text-center" style="font-family: 'Montserrat', sans-serif;">My task manager
+                        <a href="{{ path('fos_user_security_logout') }}" style="color: white;right: 38px;position: absolute">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                        </a>
+                    </h4>
+
                     <a href="https://cvjulien.netlify.com/" target="_blank">
                         <div class="logo-container">
                             <div class="logo" style="width: 50px;height: 50px">
                                 <img src="https://avatars1.githubusercontent.com/u/30557565?s=460&v=4" width="50px" height="50px">
                             </div>
                             <div class="brand" style="width: 100px">
-                                My todo
+                               Hello {{ app.user.username }}
                             </div>
                         </div>
                     </a>

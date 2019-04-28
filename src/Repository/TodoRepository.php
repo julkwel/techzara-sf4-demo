@@ -30,7 +30,7 @@ class TodoRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.todo_is_fin = :val')
-            ->setParameter('val', true)
+            ->setParameter('val', 1)
             ->orderBy('t.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()

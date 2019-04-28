@@ -32,5 +32,25 @@ services:
     my.entity.manager:
         class: App\Services\EntityManager
         public: true
+
+    app.form.registration:
+            class: App\Form\Type\RegistrationFormType
+            tags:
+                - { name: form.type, alias: fos_user_registration }
+            arguments: ['%fos_user.model.user.class%']
+
+#    App\Controller\RegistrationController:
+#        arguments:
+#            $formFactory: '@fos_user.registration.form.factory'
+
+    App\Controller\RegistrationController:
+       decorates: fos_user.registration.controller
+       tags:
+           - { name: controller.service_arguments}
+       arguments:
+       - '@event_dispatcher'
+       - '@fos_user.registration.form.factory'
+       - '@fos_user.user_manager'
+       - '@security.token_storage'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

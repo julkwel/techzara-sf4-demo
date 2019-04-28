@@ -7,6 +7,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TodoRepository")
@@ -29,6 +31,12 @@ class Todo
      * @ORM\Column(type="text", nullable=true)
      */
     private $todo_description;
+
+    /**
+     * @ManyToOne(targetEntity="User")
+     * @JoinColumn(referencedColumnName="id",nullable=true)
+     */
+    private $todo_user;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -155,5 +163,21 @@ class Todo
     public function setTodoDateFinExact($todo_date_fin_exact): void
     {
         $this->todo_date_fin_exact = $todo_date_fin_exact;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTodoUser()
+    {
+        return $this->todo_user;
+    }
+
+    /**
+     * @param mixed $todo_user
+     */
+    public function setTodoUser($todo_user)
+    {
+        $this->todo_user = $todo_user;
     }
 }
