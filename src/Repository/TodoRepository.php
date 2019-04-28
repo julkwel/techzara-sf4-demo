@@ -23,9 +23,9 @@ class TodoRepository extends ServiceEntityRepository
         parent::__construct($registry, Todo::class);
     }
 
-     /**
-      * @return Todo[] Returns an array of Todo objects
-      */
+    /**
+     * @return Todo[] Returns an array of Todo objects
+     */
     public function findTodoFin()
     {
         return $this->createQueryBuilder('t')
@@ -40,6 +40,7 @@ class TodoRepository extends ServiceEntityRepository
 
     /**
      * @param $status
+     *
      * @return Todo[] Returns an array of Todo objects
      */
     public function findByStatus($status)

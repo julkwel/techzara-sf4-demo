@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: julkwel
  * Date: 4/26/19
- * Time: 9:47 AM
+ * Time: 9:47 AM.
  */
 
 namespace App\Services;
@@ -24,12 +24,13 @@ class EntityManager
     /**
      * @param $_entity_object
      * @param $_action
+     *
      * @return bool
      */
     public function save($_entity_object, $_action)
     {
         try {
-            if ($_action === 'new') {
+            if ('new' === $_action) {
                 $this->em->persist($_entity_object);
             }
         } finally {

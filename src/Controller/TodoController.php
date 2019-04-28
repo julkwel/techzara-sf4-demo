@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Todo Controller
+ * Todo Controller.
  *
  * @Route("/todo")
  */
@@ -30,11 +30,12 @@ class TodoController extends AbstractController
     }
 
     /**
-     * List Todo fin
+     * List Todo fin.
      *
      * @Route("/", name="todo_index", methods={"GET","POST"})
      *
      * @param TodoRepository $todoRepository
+     *
      * @return Response
      */
     public function index(TodoRepository $todoRepository): Response
@@ -43,7 +44,7 @@ class TodoController extends AbstractController
 
         return $this->render('todo/index.html.twig', [
             'todos' => $todoRepository->findBy(['todo_is_fin' => false]),
-            'todoFin' => $_list_todo_terminer
+            'todoFin' => $_list_todo_terminer,
         ]);
     }
 
@@ -53,18 +54,18 @@ class TodoController extends AbstractController
     public static function getSubscribedServices()
     {
         return array_merge(parent::getSubscribedServices(), [
-            'my.entity.manager' => '?' . EntityManager::class
+            'my.entity.manager' => '?'.EntityManager::class,
         ]);
     }
 
-
     /**
-     * Add new Todo
+     * Add new Todo.
      *
      * @Route("/new", name="todo_new", methods={"GET","POST"})
      *
-     * @param Request $request
+     * @param Request       $request
      * @param EntityManager $entityManager
+     *
      * @return Response
      */
     public function new(Request $request, EntityManager $entityManager): Response
@@ -83,19 +84,20 @@ class TodoController extends AbstractController
 
         return $this->render('todo/_form.html.twig', [
             'todo' => $todo,
-            'button_id'=>'add',
-            'button_text'=>'Add Todo',
+            'button_id' => 'add',
+            'button_text' => 'Add Todo',
             'form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * Edit todo
+     * Edit todo.
      *
      * @Route("/{id}/edit", name="todo_edit", methods={"GET","POST"})
+     *
      * @param Request $request
-     * @param Todo $todo
+     * @param Todo    $todo
+     *
      * @return Response
      */
     public function edit(Request $request, Todo $todo): Response
@@ -114,18 +116,18 @@ class TodoController extends AbstractController
 
         return $this->render('todo/_form.html.twig', [
             'todo' => $todo,
-            'button_text'=>'Edit Todo',
-            'button_id'=>'edit',
+            'button_text' => 'Edit Todo',
+            'button_id' => 'edit',
             'form' => $form->createView(),
         ]);
     }
 
-
     /**
-     * Get Todo by status
+     * Get Todo by status.
      *
      * @param TodoRepository $todoRepository
      * @param $status
+     *
      * @return Response
      * @Route("/{status}/status",name="todo_status",methods={"GET","POST"})
      */
@@ -135,14 +137,15 @@ class TodoController extends AbstractController
 
         return $this->render('todo/index.html.twig', [
             'todos' => $todos,
-            'todoFin' => false
+            'todoFin' => false,
         ]);
     }
 
     /**
-     * Fin Todo
+     * Fin Todo.
      *
      * @param Todo $todo
+     *
      * @return Response
      * @Route("/{id}/fin",name="todo_fin",methods={"GET","POST"})
      */
@@ -157,10 +160,12 @@ class TodoController extends AbstractController
     }
 
     /**
-     * Remove todo
+     * Remove todo.
      *
      * @Route("/{id}/delete", name="todo_delete", methods={"POST","GET"})
+     *
      * @param Todo $todo
+     *
      * @return Response
      */
     public function delete(Todo $todo): Response
